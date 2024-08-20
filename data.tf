@@ -28,8 +28,3 @@ data "aws_secretsmanager_secret_version" "secret_version" {
   })
   secret_id = each.value
 }
-
-# this will fail if the goss profile file doesnt exist
-data local_file goss_profile_exists {
-  filename =  "${var.goss_directory}/goss-files/${local.goss_profile}"
-}
