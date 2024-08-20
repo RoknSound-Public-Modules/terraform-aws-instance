@@ -1,11 +1,11 @@
 # Description: This file is used to create the AWS resources using Terraform.
 resource "aws_instance" "linux" {
-  count                   = local.linux_instance ? 1 : 0
+  count                   = local.linux_instance ? var.instance_count : 0
   ami                     = data.aws_ssm_parameter.ami.value
   instance_type           = var.instance_type
   disable_api_termination = tobool(var.troubleshoot)
   disable_api_stop        = tobool(var.troubleshoot)
-  subnet_id               = var.subnets
+  subnet_id               = var.subnet
   vpc_security_group_ids  = var.security_group_ids
   key_name                = aws_key_pair.deployer.key_name
 
@@ -23,13 +23,13 @@ resource "aws_instance" "linux" {
   ]
 }
 
-resource "null_resource" "instance_provisioner" {
-  count = local.linux_instance && var.config != null ? 1 : 0
+resource "null_resource" "linux_instance_provisioner" {
+  for_each = toset(aws_instance.linux)
   connection {
     type        = "ssh"
     user        = var.ssh_user.value
     private_key = tls_private_key.ssh.private_key_pem
-    host        = self.private_ip
+    host        = var.enable_public_ip ? each.value.public_ip : each.value.private_ip
   }
 
   provisioner "file" {
@@ -43,5 +43,5 @@ resource "null_resource" "instance_provisioner" {
       "${var.config.script} ${var.config.args}"
     ]
   }
-
+  depends_on = [aws_instance.linux]
 }

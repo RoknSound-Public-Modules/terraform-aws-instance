@@ -29,9 +29,9 @@ variable "ssh_user" {
   type        = string
 }
 
-variable "subnets" {
+variable "subnet" {
   description = "List of subnet IDs"
-  type        = list(string)
+  type        = string
 }
 
 variable "troubleshoot" {
@@ -42,4 +42,16 @@ variable "troubleshoot" {
 variable "windows_instance" {
   description = "Create a Windows instance"
   type        = bool
+}
+
+variable "enable_public_ip" {
+  description = "Enable public IP"
+  type        = bool
+  default     = false
+}
+
+variable "instance_count" {
+  description = "The number of instances to create"
+  type        = number
+  default     = 1
 }
