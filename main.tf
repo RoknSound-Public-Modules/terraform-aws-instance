@@ -63,7 +63,7 @@ resource "null_resource" "linux_instance_provisioner" {
       "${var.config.script} ${var.config.args}"
     ]
   }
-  depends_on = [aws_instance.instance]
+  depends_on = [aws_instance.linux]
 }
 
 # resource "null_resource" "windows_instance_provisioner" {
