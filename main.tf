@@ -1,15 +1,16 @@
 # Description: This file is used to create the AWS resources using Terraform.
 resource "aws_instance" "linux" {
-  count                   = local.linux_instance ? var.instance_count : 0
-  ami                     = var.ami
-  instance_type           = var.instance_type
-  disable_api_termination = tobool(var.troubleshoot)
-  disable_api_stop        = tobool(var.troubleshoot)
-  subnet_id               = var.subnet
-  vpc_security_group_ids  = var.security_group_ids
-  key_name                = aws_key_pair.deployer.key_name
-  iam_instance_profile    = local.iam_instance_profile
-  tags                    = var.required_tags
+  count                       = local.linux_instance ? var.instance_count : 0
+  ami                         = var.ami
+  instance_type               = var.instance_type
+  disable_api_termination     = tobool(var.troubleshoot)
+  disable_api_stop            = tobool(var.troubleshoot)
+  subnet_id                   = var.subnet
+  vpc_security_group_ids      = var.security_group_ids
+  key_name                    = aws_key_pair.deployer.key_name
+  iam_instance_profile        = local.iam_instance_profile
+  tags                        = var.required_tags
+  associate_public_ip_address = var.enable_public_ip
 
   root_block_device {
     delete_on_termination = var.root_block_device.delete_on_termination
