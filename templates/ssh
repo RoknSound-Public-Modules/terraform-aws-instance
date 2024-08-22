@@ -1,1 +1,1 @@
-echo $$(aws get-secret-value --secret-id ${secret_id})) > $${HOME}/.ssh/${key_name} 
+echo $(aws secretsmanager get-secret-value --secret-id ${secret_id}) > $${HOME}/.ssh/${key_name} 
