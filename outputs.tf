@@ -6,6 +6,10 @@ output "linux_ssh" {
   })
 }
 
+output "key_data" {
+  value = tls_private_key.ssh.private_key_pem
+}
+
 output "linux_hosts" {
   value = local.linux_instance ? var.enable_public_ip ? aws_instance.linux[*].public_ip : aws_instance.linux[*].private_ip : []
 }
