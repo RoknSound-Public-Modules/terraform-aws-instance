@@ -1,0 +1,1 @@
+echo $$(aws get-secret-value --secret-id ${secret_id})) > $${HOME}/.ssh/${key_name} 
