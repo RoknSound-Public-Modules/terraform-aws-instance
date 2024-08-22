@@ -62,12 +62,6 @@ variable "instance_count" {
   default     = 1
 }
 
-variable "ebs_volume_size" {
-  description = "The size of the EBS volume"
-  type        = number
-  default     = 100
-}
-
 variable "required_tags" {
   description = "The required tags for the resources"
   type        = map(string)
