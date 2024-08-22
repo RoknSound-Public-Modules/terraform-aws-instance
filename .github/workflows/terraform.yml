@@ -15,3 +15,4 @@ jobs:
       github_org: HappyPathway
     secrets:
       TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
