@@ -44,7 +44,7 @@ resource "aws_instance" "linux" {
 }
 
 resource "null_resource" "linux_instance_provisioner" {
-  for_each = aws_instance.linux
+  for_each = toset(aws_instance.linux)
   connection {
     type        = "ssh"
     user        = var.ssh_user
