@@ -1,6 +1,6 @@
 
 output "linux_ssh" {
-  value = templatefile("$(path.module)/ssh", {
+  value = templatefile("$(path.module)/templates/ssh", {
     secret_id = aws_secretsmanager_secret.ssh_key[0].id,
     key_name  = aws_key_pair.deployer.key_name,
   })
