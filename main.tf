@@ -1,5 +1,5 @@
 # Description: This file is used to create the AWS resources using Terraform.
-resource "aws_instance" "instance" {
+resource "aws_instance" "linux" {
   count                   = local.linux_instance ? var.instance_count : 0
   ami                     = var.ami
   instance_type           = var.instance_type
@@ -44,7 +44,7 @@ resource "aws_instance" "instance" {
 }
 
 resource "null_resource" "linux_instance_provisioner" {
-  for_each = local.linux_instance ? toset(aws_instance.instance) : toset([])
+  for_each = aws_instance.linux
   connection {
     type        = "ssh"
     user        = var.ssh_user
