@@ -51,7 +51,7 @@ locals {
 }
 
 resource "null_resource" "linux_instance_provisioner" {
-  count = local.linux_instance ? var.instance_count : 0
+  count = local.linux_instance && var.config != null ? var.instance_count : 0
   connection {
     type        = "ssh"
     user        = var.ssh_user
