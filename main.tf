@@ -43,13 +43,20 @@ resource "aws_instance" "linux" {
   ]
 }
 
+locals {
+  ips = [
+    for x in range(var.instance_count) :
+    var.enable_public_ip ? aws_instance.linux[x].public_ip : aws_instance.linux[x].private_ip
+  ]
+}
+
 resource "null_resource" "linux_instance_provisioner" {
-  for_each = toset(aws_instance.linux)
+  count = local.linux_instance ? var.instance_count : 0
   connection {
     type        = "ssh"
     user        = var.ssh_user
     private_key = tls_private_key.ssh.private_key_pem
-    host        = var.enable_public_ip ? each.value.public_ip : each.value.private_ip
+    host        = element(local.ips, count.index)
   }
 
   provisioner "file" {
