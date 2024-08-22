@@ -66,25 +66,25 @@ resource "null_resource" "linux_instance_provisioner" {
   depends_on = [aws_instance.instance]
 }
 
-resource "null_resource" "windows_instance_provisioner" {
-  for_each = local.windows_instance ? toset(aws_instance.instance) : toset([])
-  connection {
-    type     = "winrm"
-    user     = var.winrm_credentials.username
-    password = var.winrm_credentials.password
-    host     = var.enable_public_ip ? each.value.public_ip : each.value.private_ip
-  }
+# resource "null_resource" "windows_instance_provisioner" {
+#   for_each = local.windows_instance ? toset(aws_instance.instance) : toset([])
+#   connection {
+#     type     = "winrm"
+#     user     = var.winrm_credentials.username
+#     password = var.winrm_credentials.password
+#     host     = var.enable_public_ip ? each.value.public_ip : each.value.private_ip
+#   }
 
-  provisioner "file" {
-    source      = var.config.src
-    destination = var.config.dest
-  }
+#   provisioner "file" {
+#     source      = var.config.src
+#     destination = var.config.dest
+#   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x ${var.config.script}",
-      "${var.config.script} ${var.config.args}"
-    ]
-  }
-  depends_on = [aws_instance.instance]
-}
+#   provisioner "remote-exec" {
+#     inline = [
+#       "chmod +x ${var.config.script}",
+#       "${var.config.script} ${var.config.args}"
+#     ]
+#   }
+#   depends_on = [aws_instance.instance]
+# }
